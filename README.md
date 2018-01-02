@@ -23,6 +23,9 @@ PLWinPlayer 是七牛推出的一款免费的适用于 Windows 平台的播放�
 - [x] 支持倍数播放功能（0.5x，1x，2x，4x 等）
 - [x] 支持 HLS 自适应码率切换播放
 
+## 使用方法
+请参考开发者中心文档：[PLWinPlayer 开发指南](https://developer.qiniu.io/pili/sdk/4164/windows-player-sdk)
+
 ## 反馈及意见
 
 当你遇到任何问题时，可以通过在 GitHub 的 repo 提交 issues 来反馈问题，请尽可能的描述清楚遇到的问题，如果有错误信息也一同附带，并且在 Labels 中指明类型为 bug 或者其他。
