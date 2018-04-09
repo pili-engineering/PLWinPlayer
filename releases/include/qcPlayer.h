@@ -69,7 +69,7 @@ typedef struct
 	long long		(* GetDur)		(void * hPlayer);
 	long long		(* GetPos)		(void * hPlayer);
 	long long		(* SetPos)		(void * hPlayer, long long llPos);
-	// The volume should be 0 - 100. 
+	// The volume 100 is orignal volume. 0-99 is low, > 100 is loud.
 	int				(* SetVolume)	(void * hPlayer, int nVolume);
 	int				(* GetVolume)	(void * hPlayer);
 	// for extend function later.
@@ -81,10 +81,12 @@ typedef struct
 // The following message for advance user
 // Set the video aspect ratio. 
 // The parameter should be QCPLAY_ARInfo *.
+// This should be called after open done event.
 #define	QCPLAY_PID_AspectRatio		QC_PLAY_BASE + 0X01
 
 // Set the play speed.
 // The parameter should be double *. it is 0.2 - 32.0
+// This should be called after open done event.
 #define	QCPLAY_PID_Speed			QC_PLAY_BASE + 0X02
 
 // Set it to disable video. Playback audio only.
@@ -132,13 +134,15 @@ typedef struct
 #define	QCPLAY_PID_StreamInfo		QC_PLAY_BASE + 0X0f
 
 // Set it to zoom video
-// The parameter should RECT *. The pos could be divided by 4 
+// The parameter should RECT *. The pos could be divided by 4
+// set {0, 0, 0, 0} to disable this feature
 #define	QCPLAY_PID_Zoom_Video		QC_PLAY_BASE + 0X11
 
 // Set clock offset time. The parameter int *.
 #define	QCPLAY_PID_Clock_OffTime	QC_PLAY_BASE + 0X20
 
 // Set the seek mode. 0, key frame, 1 any pos. int *.
+// This should be called after open done event.
 #define	QCPLAY_PID_Seek_Mode		QC_PLAY_BASE + 0X21
 
 // Set. Flush the buffer.
@@ -159,6 +163,10 @@ typedef struct
 // This should be called before open.
 #define	QCPLAY_PID_PD_Save_Path		QC_PLAY_BASE + 0X61
 
+// Set the PD save file ext name. Param should char *
+// This should be called before open.
+#define	QCPLAY_PID_PD_Save_ExtName	QC_PLAY_BASE + 0X62
+
 // Background color for video render. Param should  QC_COLOR *
 // This should be called before open. Default value is black, {0.0, 0.0, 0.0, 1.0}
 #define	QCPLAY_PID_BG_COLOR			QC_PLAY_BASE + 0X71
@@ -174,7 +182,11 @@ typedef struct
 // Get RTMP video message timestamp
 // The parameter should be long long *.
 #define QCPLAY_PID_RTMP_VIDEO_MSG_TIMESTAMP     QC_PLAY_BASE + 0X74
-    
+
+// Get RTSP udp tcp mode. 0 UDP, 1 TCP
+// The parameter should be int *.
+#define QCPLAY_PID_RTSP_UDPTCP_MODE			    QC_PLAY_BASE + 0X81
+
 // Set ext audio render. Internal use.
 // The parameter should be CBaseAudioRnd *.
 #define	QCPLAY_PID_EXT_AudioRnd		QC_PLAY_BASE + 0X0100
@@ -199,6 +211,10 @@ typedef struct
 // The parameter should be char *. "127.0.0.1" use local. "0.0.0.0" use default.
 #define	QCPLAY_PID_DNS_SERVER				QC_PLAY_BASE + 0X0208
 
+// detect the dns get best IP address
+// The parameter should be char *. "www.qiniu.com"
+#define	QCPLAY_PID_DNS_DETECT				QC_PLAY_BASE + 0X0209
+
 // Set / get the max buffer time
 // The parameter should be int *. (ms)
 #define	QCPLAY_PID_PlayBuff_MaxTime			QC_PLAY_BASE + 0X0211
@@ -213,6 +229,7 @@ typedef struct
 
 // Set to capture video image
 // The parameter should be long long * (ms). capture time. 0 is immediatily.
+// This should be called after open done event.
 #define	QCPLAY_PID_Capture_Image			QC_PLAY_BASE + 0X0310
 
 // Set the log out level
@@ -227,7 +244,12 @@ typedef struct
 // The parameter should be function: QCPlayerOutAVData
 #define	QCPLAY_PID_SendOut_AudioBuff		QC_PLAY_BASE + 0X0331
 
-// the video aspect ratio. 
+// Set the playback loop or not
+// The parameter should be int *. 0, no loop, 1 loop
+#define	QCPLAY_PID_Playback_Loop			QC_PLAY_BASE + 0X0340
+
+
+// the video aspect ratio.
 typedef struct {
 	int		nWidth;
 	int		nHeight;
