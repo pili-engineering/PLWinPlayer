@@ -46,9 +46,11 @@
 #define QC_MSG_RTMP_DISCONNECTED		0x11010007		// Param:
 #define QC_MSG_RTMP_RECONNECT_FAILED	0x11010008		// Param:
 #define QC_MSG_RTMP_RECONNECT_SUCESS	0x11010009		// Param:
+#define QC_MSG_RTMP_DNS_GET_CACHE       0x11010010        // Param:
 
 
 #define QC_MSG_IO_FIRST_BYTE_DONE		0x11020001		// Param:
+#define QC_MSG_IO_SEEK_SOURCE_TYPE		0x11020002		// Param: int * 0, None, 1 File, 2 Http, 
 
 
 // define the parser msg ID

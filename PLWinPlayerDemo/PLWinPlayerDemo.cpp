@@ -205,7 +205,25 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	g_sldPos->CreateWnd (g_hWnd, rcWnd, RGB (100, 100, 100));
     
 	g_hDllPlay = LoadLibrary ("QPlayEng.Dll");
+	if (!g_hDllPlay)
+	{
+		MessageBoxA(
+			NULL,
+			"LoadLibrary: QPlayEng.Dll failed!  Please check to see if this file exists.",
+			"Start Failed:",
+			MB_OK);
+		return FALSE;
+	}
 	QCCREATEPLAYER * fCreate = (QCCREATEPLAYER *)GetProcAddress (g_hDllPlay, "qcCreatePlayer");
+	if (!fCreate)
+	{
+		MessageBoxA(
+			NULL,
+			"GetProcAddress from QPlayEng.Dll failed!  Please check that the version is consistent.",
+			"Start Failed:",
+			MB_OK);
+		return FALSE;
+	}
 	fCreate (&g_player, g_hInst);
 	g_player.SetView (g_player.hPlayer, g_wndVideo->GetWnd (), NULL);
 	g_player.SetNotify (g_player.hPlayer, NotifyEvent, g_hWnd);
